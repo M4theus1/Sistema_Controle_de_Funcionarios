@@ -3,23 +3,23 @@ import java.util.Date;;
 
 public class FuncMeioPer extends Funcionario {
 	//classe de identificacao de funcionario meio periodo
-	private int horasTrabalhadasPorDia;
+	private TipoContrato tipoContrato;
 	
 	//herança da classe funcionario
-	public FuncMeioPer(String nome, String cpf, Date dataNascimento, String endereco, String telefone, String email, String cargo, Double salario, Date dataAdmissao, Departamento departamento, String numeroMatricula, String status, Funcionario supervisor, int horasTrabalhadasPorDia) {
+	public FuncMeioPer(String nome, String cpf, Date dataNascimento, String endereco, String telefone, String email, String cargo, Double salario, Date dataAdmissao, Departamento departamento, String numeroMatricula, String status, Funcionario supervisor, TipoContrato tipoContrato) {
 		super(nome, cpf, dataNascimento, endereco, telefone, email, cargo, salario, dataAdmissao, departamento, numeroMatricula, status, supervisor);
-		this.horasTrabalhadasPorDia = horasTrabalhadasPorDia;
+		this.tipoContrato = tipoContrato;
 	}
 	//getter e setter pra horas trabalhadas por dia
-	public int getHorasTrabalhadasPorDia() {
-		return horasTrabalhadasPorDia;
+	public TipoContrato getTipoContrato() {
+		return tipoContrato;
 	}
 	
-	public void setHorasTrabalhadasPorDia(int horasTrabalhadasPorDia) {
-		this.horasTrabalhadasPorDia = horasTrabalhadasPorDia;
+	public void setTipoContrato(TipoContrato tipoContrato) {
+		this.tipoContrato = tipoContrato;
 	}
 	
 	public double getSalario() {
-		return super.getSalario() / 2;
+		return super.getSalario();
 	}
 }

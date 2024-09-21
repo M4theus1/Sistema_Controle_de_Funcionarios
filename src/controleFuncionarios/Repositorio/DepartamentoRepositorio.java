@@ -1,55 +1,66 @@
 package controleFuncionarios.Repositorio;
 
+import controleFuncionarios.Entidades.Departamento;
 import java.util.ArrayList;
 import java.util.List;
-import controleFuncionarios.Entidades.Departamento;
 
-// Implementação do repositório para gerenciar Departamentos
 public class DepartamentoRepositorio implements IDepartamentoRepositorio {
-
     // Lista para armazenar os departamentos
     private List<Departamento> departamentos = new ArrayList<>();
 
     @Override
     public void adicionar(Departamento departamento) {
-        // Adiciona um novo departamento à lista
+        // Verifica se o departamento a ser adicionado é nulo
+        if (departamento == null) {
+            throw new IllegalArgumentException("Departamento não pode ser nulo.");
+        }
+        // Verifica se já existe um departamento com o mesmo código
+        if (buscar(departamento.getCodigo()) != null) {
+            throw new IllegalArgumentException("Departamento com código já cadastrado.");
+        }
+        // Adiciona o departamento à lista
         departamentos.add(departamento);
     }
 
     @Override
     public Departamento buscar(String codigo) {
-        // Busca um departamento pelo código
-        // Usa stream para filtrar e encontrar o primeiro departamento que tem o código correspondente
-        return departamentos.stream()
-                            .filter(u -> u.getCodigo().equals(codigo)) // Filtra pelo código
-                            .findFirst() // Encontra o primeiro resultado
-                            .orElse(null); // Retorna null se nenhum departamento for encontrado
+        // Percorre a lista de departamentos para encontrar o com o código especificado
+        for (Departamento d : departamentos) {
+            if (d.getCodigo().equals(codigo)) {
+                return d; // Retorna o departamento encontrado
+            }
+        }
+        // Lança uma exceção se o departamento não for encontrado
+        throw new IllegalArgumentException("Departamento não encontrado.");
     }
 
     @Override
     public void atualizar(Departamento departamento) {
-        // Atualiza um departamento existente
-        Departamento u = buscar(departamento.getCodigo()); // Busca o departamento existente pelo código
-        if (u != null) {
-            // Remove o departamento antigo e adiciona o novo com as atualizações
-            departamentos.remove(u);
-            departamentos.add(departamento);
+        // Verifica se o departamento a ser atualizado é nulo
+        if (departamento == null) {
+            throw new IllegalArgumentException("Departamento não pode ser nulo.");
         }
+        // Busca o departamento existente com o mesmo código
+        Departamento existente = buscar(departamento.getCodigo());
+        // Atualiza os dados do departamento existente com os novos valores
+        existente.setNome(departamento.getNome());
+        existente.setOrcamento(departamento.getOrcamento());
+        existente.setLocalizacao(departamento.getLocalizacao());
+        existente.setNumeroFuncionarios(departamento.getNumeroFuncionarios());
+        existente.setGerente(departamento.getGerente());
     }
 
     @Override
     public void remover(String codigo) {
-        // Remove um departamento pelo código
-        Departamento u = buscar(codigo); // Busca o departamento a ser removido
-        if (u != null) {
-            // Remove o departamento da lista
-            departamentos.remove(u);
-        }
+        // Busca o departamento a ser removido pelo código
+        Departamento departamento = buscar(codigo);
+        // Remove o departamento da lista
+        departamentos.remove(departamento);
     }
 
     @Override
     public List<Departamento> listarTodos() {
-        // Retorna uma nova lista contendo todos os departamentos
+        // Retorna uma nova lista com todos os departamentos
         return new ArrayList<>(departamentos);
     }
 }
